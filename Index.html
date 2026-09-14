@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Camille & Julien — Faire-part de Mariage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Abril+Fatface&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F1E6DA;
+    --sage:#86AD91;
+    --forest:#064001;
+    --cream-shadow: rgba(6,64,1,0.12);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    background:var(--cream);
+    overflow:hidden;
+    font-family:'Abril Fatface', serif;
+  }
+
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+
+  .backdrop{
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse at center, rgba(134,173,145,0.16) 0%, rgba(241,230,218,0) 60%);
+    pointer-events:none;
+  }
+
+  .sprig{
+    position:absolute;
+    opacity:0.55;
+    pointer-events:none;
+  }
+  .sprig.tl{ top:4%; left:4%; width:90px; transform:rotate(-8deg); }
+  .sprig.br{ bottom:4%; right:4%; width:90px; transform:rotate(172deg); }
+
+  @media (max-width:600px){
+    .sprig.tl{ width:56px; top:3%; left:3%; }
+    .sprig.br{ width:56px; bottom:3%; right:3%; }
+  }
+
+  .stage{
+    position:relative;
+    width:min(420px, 84vw);
+    height:min(300px, 60vw);
+    perspective:1800px;
+  }
+
+  .instruction{
+    position:absolute;
+    left:0; right:0;
+    bottom:-52px;
+    text-align:center;
+    font-family:'Abril Fatface', serif;
+    font-size:12px;
+    letter-spacing:2.5px;
+    color:var(--forest);
+    opacity:0.72;
+    transition:opacity .6s ease;
+  }
+  .instruction span{
+    display:inline-block;
+    animation: floatHint 2.6s ease-in-out infinite;
+  }
+  @keyframes floatHint{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(3px); }
+  }
+
+  .envelope{
+    position:relative;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+    transition: transform .45s cubic-bezier(.2,.7,.3,1), filter .45s ease;
+    filter: drop-shadow(0 18px 30px var(--cream-shadow));
+  }
+  .envelope:hover{
+    transform: translateY(-6px);
+    filter: drop-shadow(0 26px 38px var(--cream-shadow));
+  }
+  .envelope:active{ transform: translateY(-2px) scale(0.99); }
+
+  .body{
+    position:absolute;
+    inset:0;
+    border-radius:6px;
+    background:
+      linear-gradient(180deg, #F7EEE3 0%, #F1E6DA 55%, #ECDFCF 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(6,64,1,0.08),
+      inset 0 -14px 26px rgba(6,64,1,0.05);
+    overflow:hidden;
+  }
+
+  .body::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(6,64,1,0.025) 0px, rgba(6,64,1,0.025) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(25deg, rgba(6,64,1,0.02) 0px, rgba(6,64,1,0.02) 1px, transparent 1px, transparent 5px);
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+
+  .fold-left, .fold-right, .fold-bottom{
+    position:absolute;
+    background:linear-gradient(135deg, rgba(6,64,1,0.05), rgba(6,64,1,0));
+  }
+  .fold-left{
+    left:0; top:0; width:50%; height:100%;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    background:linear-gradient(120deg, rgba(6,64,1,0.06), transparent 70%);
+  }
+  .fold-right{
+    right:0; top:0; width:50%; height:100%;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    background:linear-gradient(240deg, rgba(6,64,1,0.06), transparent 70%);
+  }
+  .fold-bottom{
+    left:0; bottom:0; width:100%; height:62%;
+    clip-path: polygon(0 100%, 50% 30%, 100% 100%);
+    background:linear-gradient(0deg, rgba(6,64,1,0.05), transparent 75%);
+  }
+
+  .letter{
+    position:absolute;
+    left:8%;
+    right:8%;
+    top:-4%;
+    bottom:14%;
+    background: linear-gradient(180deg, #FBF7F1, #F4EDE3);
+    border-radius:3px;
+    box-shadow: 0 6px 18px rgba(6,64,1,0.14);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6% 8% 10%;
+    z-index:2;
+    transform: translateY(6%);
+    transition: transform 1.1s cubic-bezier(.22,.9,.28,1);
+  }
+
+  .letter .eyebrow{
+    font-family:'Abril Fatface', serif;
+    font-size:clamp(10px, 2.4vw, 13px);
+    letter-spacing:3px;
+    color:var(--sage);
+    margin-bottom:6px;
+  }
+  .letter .names{
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(30px, 8vw, 46px);
+    color:var(--forest);
+    line-height:1.15;
+    margin:2px 0 8px;
+  }
+  .letter .date{
+    font-family:'Abril Fatface', serif;
+    font-size:clamp(11px, 2.6vw, 14px);
+    letter-spacing:2px;
+    color:var(--forest);
+    opacity:0.85;
+  }
+  .letter .rule{
+    width:34px;
+    height:1px;
+    background:var(--sage);
+    margin:10px auto;
+    opacity:0.8;
+  }
+
+  .flap{
+    position:absolute;
+    left:0; top:0; width:100%; height:62%;
+    clip-path: polygon(0 0, 100% 0, 50% 78%);
+    background:
+      linear-gradient(160deg, #F4E9DC 0%, #EDE0CE 60%, #E7D8C3 100%);
+    box-shadow: inset 0 -10px 18px rgba(6,64,1,0.06);
+    transform-origin: top center;
+    transform-style:preserve-3d;
+    transition: transform 1s cubic-bezier(.4,.1,.2,1);
+    z-index:5;
+  }
+  .flap::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(70deg, rgba(6,64,1,0.03) 0px, rgba(6,64,1,0.03) 1px, transparent 1px, transparent 5px);
+    mix-blend-mode:multiply;
+  }
+
+  .seal{
+    position:absolute;
+    left:50%; top:56%;
+    width:56px; height:56px;
+    margin-left:-28px; margin-top:-28px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #0a5602, var(--forest) 70%);
+    box-shadow:
+      0 4px 10px rgba(6,64,1,0.4),
+      inset 0 -3px 6px rgba(0,0,0,0.35),
+      inset 0 3px 5px rgba(255,255,255,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:6;
+    transition: transform .4s ease, opacity .5s ease;
+  }
+  .seal svg{ width:26px; height:26px; opacity:0.9; }
+  .envelope:hover .seal{ transform: translate(-50%,-50%) scale(1.06); }
+
+  .envelope.open .flap{
+    transform: rotateX(178deg);
+    z-index:1;
+  }
+  .envelope.open .seal{
+    opacity:0;
+    transform: translate(-50%,-70%) scale(0.7);
+  }
+  .envelope.open .letter{
+    transform: translateY(-58%);
+    transition-delay:.15s;
+  }
+  .envelope.open{
+    transform: translateY(-4px) scale(1.01);
+  }
+  .envelope.fading{
+    transition: opacity .6s ease;
+    opacity:0;
+  }
+
+  .instruction.hide{ opacity:0; }
+
+  .fallback-link{
+    position:absolute;
+    left:0; right:0;
+    bottom:-52px;
+    text-align:center;
+    font
